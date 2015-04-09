@@ -1,0 +1,5 @@
+repo: a1b70b92be643de91fc3f1729d722963128c4da5
+node: abdd1227abaff3599b2dd427afd6086e23edb75a
+branch: ehcache
+latesttag: null
+latesttagdistance: 40

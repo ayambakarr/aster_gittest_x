@@ -1,0 +1,34 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         maxBytesLocalHeap="1M" maxBytesLocalOffHeap="16M">
+
+    <!--
+        configure diskstore if any of the configured cache has overflowToDisk
+        or diskPersistent enabled
+    -->
+    <diskStore path="java.io.tmpdir"/>
+    <!--
+
+        Mandatory Default Cache configuration. These settings will be applied to caches
+        created programmatically using CacheManager.add(String cacheName).
+
+        The defaultCache has an implicit name "default" which is a reserved cache name.
+    -->
+    <defaultCache eternal="true" overflowToDisk="false" maxElementsInMemory="5"/>
+
+    <cache eternal="true" name="org.hibernate.cache.StandardQueryCache"
+           maxElementsInMemory="5"
+           overflowToDisk="false"
+           clearOnFlush="true"/>
+
+    <cache name="org.hibernate.cache.UpdateTimestampsCache"
+           maxElementsInMemory="5000"
+           eternal="true"
+           overflowToDisk="true"/>
+
+    <cache name="com.mitrais.research.springhibernate.model.User"
+           maxElementsInMemory="5000"
+           eternal="true"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU" />
+</ehcache>
