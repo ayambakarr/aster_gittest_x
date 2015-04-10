@@ -46,15 +46,9 @@ public class PatientDaoImplTest extends BaseTest{
 	
 	@Test	
     @SuppressWarnings("unchecked")
-//	public void savePerson(){
-//		Person p = new Person();
-//		p.setFullName("nanana");
-//		persond.savePerson(p);
-//	}
-//	public void test(){		
-//	}
-	public void savePatient(){
+	public void testPatient(){
 		Date now = Calendar.getInstance().getTime();
+		//save
 		List<PatientAlcohol> patientAlcoholList = new ArrayList<PatientAlcohol>();
 		PatientAlcohol dummy = new PatientAlcohol(new Date(now.getTime()),123,UUID.randomUUID().toString(),new Date(now.getTime()),UUID.randomUUID().toString(),new Date(now.getTime()),456);		
 		patientAlcoholList.add(dummy);		  
@@ -64,27 +58,28 @@ public class PatientDaoImplTest extends BaseTest{
 		pat.setUpdatedDate(new Date(now.getTime()));
 		pat.setEmail("nannana");
 		pat.setPatientAlcoholList(patientAlcoholList);
-		patDao.savePatient(pat);
-//		pat.setFirstName("sean");
-//		pat.setLastName("satya");
-//		List<Patient> listPat = patDao.getPatientList(pat);
-//		assertTrue (listPat.size() == 1);
-//		pat = listPat.get(0);		 
-//		pat.getPatientAlcoholList().add(dummy);
-//		patDao.updatePatient(pat);
-		
-//		List<Patient> listPat = patDao.getPatientList(pat);
-//		assertTrue (listPat.size() >= 0);
-//		patDao.deletePatient(pat);
-//		listPat = patDao.getPatientList(pat);
-//		assertTrue (listPat.size() >= 0);
-//		patDao.savePatient(pat);
-//		pat.setFirstName("kukukuku");
-//		pat.setLastName("xxx");
-//		listPat = patDao.getPatientList(pat);
-//		pat = listPat.get(0);
-//		pat.setFirstName("yayaya");
-//		pat.setLastName("yuyuyuyu");
-//		patDao.updatePatient(pat);		
+		String id = patDao.savePatient(pat);
+		//update
+		pat.setPatientGUID(id);
+		pat.setFirstName("dulgundul");
+		pat.setLastName("dalgundal");
+		patDao.updatePatient(pat);
+		//search
+		List<Patient> patList = patDao.getPatientList(pat);
+		assertTrue(patList.size() == 1);
+		assertTrue(patList.get(0).getPatientGUID().equals(id));
+		//delete
+		patDao.deletePatient(pat);
+		patList = patDao.getPatientList(pat);
+		assertTrue(patList.size() == 0);
+	}
+	
+	@Test
+	public void searchPatientByName(){		
+		Patient pat = new Patient();
+		pat.setFirstName("sean");
+		pat.setLastName("satya");
+		//patientBo.getPatientByName(pat);
+		patDao.getPatientList(pat);
 	}
 }

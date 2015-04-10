@@ -45,14 +45,14 @@ public class PatientAlcohol {
 	@Column(name = "UpdatedDate", nullable = false)
 	Date updatedDate;
 	@Column(name = "RecordStatusID", nullable = false)
-	int recordStatusID;
+	Integer recordStatusID;
 	
 	public PatientAlcohol(){
 	}
 
-	public PatientAlcohol(Date assessmentDate, int alcoholStatusID, String createdBy,
+	public PatientAlcohol(Date assessmentDate, Integer alcoholStatusID, String createdBy,
 			Date createdDate, String updatedBy, Date updatedDate,
-			int recordStatusID) {
+			Integer recordStatusID) {
 		super();
 		this.assessmentDate = assessmentDate;
 		this.alcoholStatusID = alcoholStatusID;
@@ -79,59 +79,59 @@ public class PatientAlcohol {
 		this.assessmentDate = assessmentDate;
 	}
 
-	public int getAlcoholStatusID() {
+	public Integer getAlcoholStatusID() {
 		return alcoholStatusID;
 	}
 
-	public void setAlcoholStatusID(int alcoholStatusID) {
+	public void setAlcoholStatusID(Integer alcoholStatusID) {
 		this.alcoholStatusID = alcoholStatusID;
 	}
 
-	public int getDrinksPerDay() {
+	public Integer getDrinksPerDay() {
 		return drinksPerDay;
 	}
 
-	public void setDrinksPerDay(int drinksPerDay) {
+	public void setDrinksPerDay(Integer drinksPerDay) {
 		this.drinksPerDay = drinksPerDay;
 	}
 
-	public int getAlcoholBingeStatusID() {
+	public Integer getAlcoholBingeStatusID() {
 		return alcoholBingeStatusID;
 	}
 
-	public void setAlcoholBingeStatusID(int alcoholBingeStatusID) {
+	public void setAlcoholBingeStatusID(Integer alcoholBingeStatusID) {
 		this.alcoholBingeStatusID = alcoholBingeStatusID;
 	}
 
-	public int getHistoryAlcoholStatusID() {
+	public Integer getHistoryAlcoholStatusID() {
 		return historyAlcoholStatusID;
 	}
 
-	public void setHistoryAlcoholStatusID(int historyAlcoholStatusID) {
+	public void setHistoryAlcoholStatusID(Integer historyAlcoholStatusID) {
 		this.historyAlcoholStatusID = historyAlcoholStatusID;
 	}
 
-	public int getHistoryStartedYear() {
+	public Integer getHistoryStartedYear() {
 		return historyStartedYear;
 	}
 
-	public void setHistoryStartedYear(int historyStartedYear) {
+	public void setHistoryStartedYear(Integer historyStartedYear) {
 		this.historyStartedYear = historyStartedYear;
 	}
 
-	public int getHistoryStoppedYear() {
+	public Integer getHistoryStoppedYear() {
 		return historyStoppedYear;
 	}
 
-	public void setHistoryStoppedYear(int historyStoppedYear) {
+	public void setHistoryStoppedYear(Integer historyStoppedYear) {
 		this.historyStoppedYear = historyStoppedYear;
 	}
 
-	public int getAlcoholQuitStatusID() {
+	public Integer getAlcoholQuitStatusID() {
 		return alcoholQuitStatusID;
 	}
 
-	public void setAlcoholQuitStatusID(int alcoholQuitStatusID) {
+	public void setAlcoholQuitStatusID(Integer alcoholQuitStatusID) {
 		this.alcoholQuitStatusID = alcoholQuitStatusID;
 	}
 
@@ -175,11 +175,11 @@ public class PatientAlcohol {
 		this.updatedDate = updatedDate;
 	}
 
-	public int getRecordStatusID() {
+	public Integer getRecordStatusID() {
 		return recordStatusID;
 	}
 
-	public void setRecordStatusID(int recordStatusID) {
+	public void setRecordStatusID(Integer recordStatusID) {
 		this.recordStatusID = recordStatusID;
 	}
 }

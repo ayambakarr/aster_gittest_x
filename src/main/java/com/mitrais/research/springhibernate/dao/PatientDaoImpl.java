@@ -14,7 +14,7 @@ public class PatientDaoImpl extends AbstractDao implements PatientDao{
 
 	@Override
 	public void updatePatient(Patient patient) {
-		getSessionFactory().getCurrentSession().update(patient);;
+		getSessionFactory().getCurrentSession().update(patient);
 		
 	}
 
@@ -24,8 +24,8 @@ public class PatientDaoImpl extends AbstractDao implements PatientDao{
 	}
 
 	@Override
-	public void savePatient(Patient patient) {
-		getSessionFactory().getCurrentSession().save(patient);		
+	public String savePatient(Patient patient) {
+		return (String)getSessionFactory().getCurrentSession().save(patient).toString();		
 	}
 
 	@Override

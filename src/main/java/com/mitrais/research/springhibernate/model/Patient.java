@@ -107,7 +107,7 @@ public class Patient implements Serializable {
     private int recordStatusID;
 	
 	
-	@OneToMany(fetch = FetchType.LAZY,
+	@OneToMany(fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
 	@JoinColumn(name="PatientGUID", nullable=false)
 	private List<PatientAlcohol> patientAlcoholList;

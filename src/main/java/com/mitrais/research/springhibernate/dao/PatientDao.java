@@ -11,7 +11,7 @@ import com.mitrais.research.springhibernate.model.PatientAlcohol;
 public interface PatientDao {		
 	    void updatePatient (Patient patient);
 	    void deletePatient (Patient patient) ;
-	    void savePatient(Patient patient);
+	    String savePatient(Patient patient);
 	    @Transactional
 	    List<Patient> getPatientList(Patient pat);
 	    @Transactional

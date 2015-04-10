@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
+	<bean id="jacksonProvider" class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider" />
     <bean id="messageSource"
-          class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages"/>
+          class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages"/>          
 </beans>

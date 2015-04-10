@@ -45,7 +45,7 @@
           p:dataSource-ref="dataSource"
           p:sessionFactory-ref="sessionFactory"/>
 
-    <context:component-scan base-package="com.mitrais.research.springhibernate.dao"/>
+    <context:component-scan base-package="com.mitrais.research.springhibernate.*"/>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
