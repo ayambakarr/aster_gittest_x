@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="http://cdn.kendostatic.com/2014.1.318/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.kendostatic.com/2014.1.318/styles/kendo.default.min.css" rel="stylesheet" type="text/css" />
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2014.1.318/js/kendo.all.min.js"></script>
+</head>
+<body>
+    <div id="grid" 
+        data-role="grid"
+        data-sortable="true"
+        data-pageable=" { refresh: true, pageSizes: [10, 20, 50, 100 ] } "
+        data-columns='[
+                {"field": "PatientGUID", "title": "Patient ID"}, 
+                {"field": "FirstName", "title": "First Name"},
+                {"field": "LastName", "title": "Last Name"},
+                {"field": "DOB", "title": "Date of Birth"},
+                {"field": "GenderCode", "title": "Gender Code"},
+                {"field": "Email", "title": "E-mail"},
+                {"field": "HomePhone", "title": "Home Phone"},
+                {"field": "UsualDoctorGUID", "title": "Doctor GUID"},
+                {"field": "PracticeGUID", "title": "Practice GUID"},
+                {"field": "DOD", "title": "DOD"},
+                {"field": "PatientStatusCode", "title": "Status Code"}
+            ]'
+        data-bind="source: dataSource, events: { dataBound: dataBound }"></div>
+    
+    <script>
+        //Model
+        var patientModel = {
+            id: "PatientGUID",
+            fields: {
+                "PatientGUID": {from: "PatientGUID", type: "string", editable: false, nullable: true},
+                "FirstName": {from: "FirstName", type: "string", editable: true, nullable: false},
+                "LastName": {from: "LastName", type: "string", editable: true, nullable: false},
+                "DOB": {from: "DOB", type: "string", editable: true, nullable: false},
+                "GenderCode": {from: "GenderCode", type: "string", editable: true, nullable: false},
+                "Email": {from: "Email", type: "string", editable: true, nullable: false},
+                "HomePhone": {from: "HomePhone", type: "string", editable: true, nullable: false},
+                "UsualDoctorGUID": {from: "UsualDoctorGUID", type: "string", editable: true, nullable: false},
+                "PracticeGUID": {from: "PracticeGUID", type: "string", editable: true, nullable: false},
+                "DOD": {from: "DOD", type: "string", editable: true, nullable: false},
+                "PatientStatusCode": {from: "PatientStatusCode", type: "string", editable: true, nullable: false}
+            }
+        };
+
+        //Source
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {                	
+                	// Private IP: 10.0.1.67
+                	// Public IP : 54.79.68.175
+					contentType: "application/json; charset=utf-8",
+                    url: "/mrapp/rest/medirecords/patient/",
+                    //url: "http://app.medirecords.com/mrapp/medirecords/patient/",
+                    dataType: "json"
+                }
+            },
+            schema: {
+                model: patientModel
+            },
+            pageSize: 5,
+            error: function (e) {
+                var msg = e.xhr.responseText; // responseText is the custom error message which is being sent from the server side code
+
+                // Show the message to user
+				console.log(msg);
+                $("#Message").text('There is an error happened! Technical error: ' + msg);
+                $('#MessageModalDialog').data("kendoWindow").title("Error");
+                $('#MessageModalDialog').data("kendoWindow").center();
+                $('#MessageModalDialog').data("kendoWindow").open();
+            }
+        });
+
+        //View Model
+        var viewModel = kendo.observable({
+            dataSource: dataSource,
+            dataBound: function(e) {
+                e.sender.expandRow(e.sender.tbody.find("tr.k-master-row").first());
+            }
+        });
+
+        kendo.bind($(document.body), viewModel);
+    </script>
+</body>
+</html>

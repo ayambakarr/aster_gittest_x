@@ -1,0 +1,211 @@
+<script type="text/x-kendo-template" id="creditcard">
+    <div id="ModalDialogProvisioning" class="ModalDialog" title="Loading">
+        <div>
+            <img id="loader" src="images/ajax-loader.gif" />
+            </br>
+            Provisiong practice, 
+            </br>
+            please wait a moment..
+        </div>
+    </div>
+    <style>
+        .no-close .ui-dialog-titlebar-close {
+          display: none;
+        }
+    </style>
+    <div class="LogoBig">
+        <img src="images/MediRecordsIcon.png" />
+    </div>
+    <div class="registrationMessage">
+        <p class="HeadMessage">
+            Credit Card Information
+        </p>
+    </div>
+    <div class="triangle">
+        <img src="images/triangleBorderGray.png" />
+    </div>
+    <div id="stylized" class="formFrame">
+        <div style="margin: auto;">
+            <div id="RegistrationForm">
+                <table id="form" class="RegistrationTable" style="width:80%; margin: auto;">
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="AmountPerMonth" placeholder="Amount per Month" class='RegistrationInput' name="Amount per Month" maxlength="50" required/>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="NameofCard" placeholder="Name of Card" class='RegInputWithValidation' name="Name of Card" maxlength="50" required/>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="CardNumber" placeholder="Card number" class='RegistrationInput' name="Card number" maxlength="16" required/>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="ExpiresOn" placeholder="Expires on" class='RegistrationDatePicker' name="Expires on" required/>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="SecurityCode" placeholder="Security Code" class='RegistrationInput' name="Security Code" maxlength="10" required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="text-align: left;">
+                                        <input id="CreditCardBack" value="Back" type="submit" class="MediRecordsButton" style="width: 70px;" onclick="BacktoCreatePassword()"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <input id="CreditCardNext" value="Next" type="submit" class="MediRecordsButton" style="width: 70px;"/>        
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                        </td>
+                    </tr>
+                </table>
+            </div>    
+        </div>
+    </div>
+</script>
+<script>
+    $(document).ready(function () {
+        var registrationContinue;
+
+        $(document).bind("viewSwtichedEvent", function (e, args) {
+            $.cookie.json = true;
+            function LoadNameOfCard() {
+                $("#AmountPerMonth").val($.cookie('subscription').Amount);
+                $("#NameofCard").val($.cookie('registration2').FirstName + ' ' + $.cookie('registration2').LastName);
+            };
+            LoadNameOfCard();
+
+            registrationContinue = {
+                accountGuid: $.cookie('registration2').AccountId,
+                opportunityGuid: $.cookie('registration2').OpportunityGuid,
+                contactGuid: $.cookie('registration2').ContactGuid,
+                practiceName: $.cookie('registration2').PracticeName,
+                title: $.cookie('registration2').Title,
+                firstName: $.cookie('registration2').FirstName,
+                lastName: $.cookie('registration2').LastName,                
+                userId: $.cookie('registration2').UserId,
+                email: $.cookie('registration2').Email,
+                phone: $.cookie('registration2').Phone,
+                promotionCode: $.cookie('registration2').PromotionCode,
+                currentClinicalSystem: $.cookie('registration2').CurrentClinicalSystem,
+                promotionCode: $.cookie('registration2').PromotionCode,
+                userCategoryId: $.cookie('registration2').UserCategoryId,
+                doNotSendMM: $.cookie('registration2').DoNotSendMM,
+                practiceAddress: {
+                	addressLine1: $.cookie('registration2').Address1,
+                	addressLine2: $.cookie('registration2').Address2,
+                    city: $.cookie('registration2').City,
+                    postCode: $.cookie('registration2').PostCode,
+                    stateCode: $.cookie('registration2').State,
+                    countryCode: $.cookie('registration2').Country,
+                    countryName: $.cookie('registration2').CountryName
+                },
+                serviceProviderTypeId: $.cookie('registration2').ProviderTypeId,
+                billingName: $.cookie('registration3').BillingName,
+                billingAddress: {
+                	addressLine1: $.cookie('registration3').BillingAddress1,
+                	addressLine2: $.cookie('registration3').BillingAddress2,
+                	city: $.cookie('registration3').BillingCity,
+                    postCode: $.cookie('registration3').BillingPostCode,
+                    stateCode: $.cookie('registration3').BillingState
+                },
+                numberOfDoctors: $.cookie('registration2').NumberOfDoctors,
+                abnNumber: $.cookie('registration3').ABN,
+                registerForGST: $.cookie('registration3').RegisterForGST,
+                subscriptionPlanId: $.cookie('subscription').SubscriptionPlanId,
+                subscriptionProductId: $.cookie('subscription').SubscriptionProductId,
+                subscriptionModuleId: $.cookie('subscription').SubscriptionModuleId,
+                timeZoneId: $.cookie('registration2').TimeZone,
+                password: $.cookie('createPassword').Password,
+                secretQuestion1: $.cookie('createPassword').SecretQuestion1,
+                secretAnswer1: $.cookie('createPassword').SecretAnswer1,
+                secretQuestion2: $.cookie('createPassword').SecretQuestion2,
+                secretAnswer2: $.cookie('createPassword').SecretAnswer2,
+                CardDetails: {
+                	Name: $("#NameofCard").val(),
+                	Number: $("#CardNumber").val(),
+                	ExpiryMonth: "12",
+                	ExpiryYear: "16",
+                	StartMonth: "",
+                	StartYear: "",
+                	IssueNumber: "",
+                	CVN: $("#SecurityCode").val()
+                }
+            };
+
+            //Set KendoDatePicker on ExpiresOn
+            $("#ExpiresOn").kendoDatePicker({
+                value: new Date()
+            });
+            //Validating the form with kendo
+            var validator = $("#RegistrationForm").kendoValidator({
+                validateOnBlur: false
+            }).data("kendoValidator");
+            $("#CreditCardNext").on("click", function () {
+                var validatorType1 = validateCommonField($("#RegistrationForm"), "[class=RegInputWithValidation]");
+                if (validator.validate() & validatorType1.validate()) {
+                    // If the form is valid, the Validator will return true
+                    saveRegistrationContinue();
+                }
+            });
+
+            //Define modaldialog for loading
+            $("#ModalDialogProvisioning").dialog({
+                dialogClass: "no-close",
+                autoOpen: false,
+                modal: true,
+            });
+        });
+
+        function saveRegistrationContinue() {
+
+            $(document).ajaxStart(function () {
+                $("#ModalDialogProvisioning").dialog("open");
+            });
+            $(document).ajaxStop(function () {
+                $("#ModalDialogProvisioning").dialog("close");
+            });
+            
+            //alert(registrationContinue.accountGuid);
+
+            $.ajax({
+                url: 'rest/registration/postRegistrationContinue',
+                type: 'POST',
+                data: JSON.stringify(registrationContinue),
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    if (data.Success == false) {
+                        $("#Message").text(data.Message);
+                        $("#MessageModalDialog").dialog("open");
+                    }
+                    else {
+                            $.removeCookie('registration2');
+                            $.removeCookie('registration3');
+                            $.removeCookie('registration4');
+                            $.removeCookie('createPassword');
+                            $.removeCookie('subscription');
+                            window.location.href = 'index.html';
+                    }
+                },
+                error: function (x, y, z) {
+                    $("#Message").text(x + '\n' + y + '\n' + z);
+                    $("#MessageModalDialog").dialog("open");
+                }
+            });
+        };
+
+        function BacktoCreatePassword() {
+            window.location.href = 'registration.html#/createpassword';
+        };
+    });
+</script>

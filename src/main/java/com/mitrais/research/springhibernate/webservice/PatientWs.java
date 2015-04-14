@@ -1,4 +1,5 @@
 package com.mitrais.research.springhibernate.webservice;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,9 +15,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,82 +33,132 @@ import com.mitrais.research.springhibernate.service.PatientService;
 @Path("/patients")
 public class PatientWs {
 	private static Logger logger = Logger.getLogger(PatientWs.class.getName());
-	
-	@Autowired 
+
+	@Autowired
 	private PatientService patientService;
-	
+
 	@GET
 	@Path("/ping")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String testPing(){		
+	@Produces(MediaType.APPLICATION_JSON)
+	public Patient testPing() {
 		String nanana = "nanana";
-//		Date now = Calendar.getInstance().getTime();
-//		List<PatientAlcohol> patientAlcoholList = new ArrayList<PatientAlcohol>();
-//		PatientAlcohol dummy = new PatientAlcohol(new Date(now.getTime()),666,UUID.randomUUID().toString(),new Date(now.getTime()),UUID.randomUUID().toString(),new Date(now.getTime()),666);
-//		patientAlcoholList.add(dummy);
+		// Date now = Calendar.getInstance().getTime();
+		// List<PatientAlcohol> patientAlcoholList = new
+		// ArrayList<PatientAlcohol>();
+		// PatientAlcohol dummy = new PatientAlcohol(new
+		// Date(now.getTime()),666,UUID.randomUUID().toString(),new
+		// Date(now.getTime()),UUID.randomUUID().toString(),new
+		// Date(now.getTime()),666);
+		// patientAlcoholList.add(dummy);
 		Patient pat = new Patient();
 		pat.setFirstName("rerere");
 		pat.setLastName("dasda");
-		List<Patient> patList = patientService.getPatientByName(pat);		
-		pat = patList.get(0);			
-//		pat.setPatientAlcoholList(patientAlcoholList);
+		List<Patient> patList = patientService.getPatientByName(pat);
+		pat = patList.get(0);
+		// pat.setPatientAlcoholList(patientAlcoholList);
 		patientService.updatePatient(pat);
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonString = null;
 		try {
-			if(pat != null){
+			if (pat != null) {
 				jsonString = mapper.writeValueAsString(pat);
-			}else{
+			} else {
 				jsonString = mapper.writeValueAsString(nanana);
 			}
 		} catch (JsonGenerationException e) {
-			return "error1";
+			//return "error1";
+			e.printStackTrace();
 		} catch (JsonMappingException e) {
-			//return "error2";
+			// return "error2";
 			e.printStackTrace();
 		} catch (IOException e) {
-			return "error3";			
+			e.printStackTrace();
+			//return "error3";
 		}
-		return jsonString;
+		return pat;
 	}
-//	
-//	@POST
-//	@Consumes(MediaType.APPLICATION_JSON)
-//	@Produces(MediaType.TEXT_PLAIN)
-//	public String addPatient(Patient newPatient){
-//		return null;
-//	}
-	
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String findPatients(){
+	public String findPatients() {
 		return null;
 	}
 
-	
-	
 	@POST
+	@Path("/add")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String addPatient(String newPatient) {
+		ObjectMapper mapper = new ObjectMapper();
+		Patient pat = new Patient();
+		try {
+			pat = mapper.readValue(newPatient, Patient.class);
+		} catch (JsonGenerationException e) {
+			return "error1";
+		} catch (JsonMappingException e) {
+			// return "error2";
+			e.printStackTrace();
+		} catch (IOException e) {
+			return "error3";
+		}
+		return patientService.savePatient(pat);
+	}
+
+	@POST
+	@Path("/add2")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String addPatient(Patient newPatient){
-		return null;
+	public String addPatient(@PathParam("titleID") Integer titleID,
+			@PathParam("firstName") String firstName,
+			@PathParam("lastName") String lastName,
+			@PathParam("createdDate") Date createdDate,
+			@PathParam("updatedDate") Date updatedDate,
+			@PathParam("recordStatusID") Integer recordStatusID) {
+		Patient pat = new Patient();
+		pat.setTitleID(titleID);
+		pat.setFirstName(firstName);
+		pat.setLastName(lastName);
+		pat.setCreatedDate(createdDate);
+		pat.setUpdatedDate(updatedDate);
+		pat.setRecordStatusID(recordStatusID);
+		pat.setAccountGUID(UUID.randomUUID().toString());
+		pat.setPracticeGUID(UUID.randomUUID().toString());
+		pat.setCreatedBy(UUID.randomUUID().toString());
+		pat.setUpdatedBy(UUID.randomUUID().toString());
+
+		return "added new patient, guid :" + patientService.savePatient(pat);
 	}
-	
+
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String updatePatient(Patient newPatient){
+	public String updatePatient(Patient newPatient) {
 		return null;
 	}
 
-	
-	
 	@GET
 	@Path("/{patientGUID}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getPatient(@PathParam("patientGUID") String patientGUID){	
-		return null;
+	public Response getPatient(@PathParam("patientGUID") String patientGUID) {
+		return Response.status(200)
+				.entity("getUserById is called, id : " + patientGUID).build();
 	}
-	
+
+	@GET
+	@Path("/ping/{name}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getPatientByName(@PathParam("name") String name) {
+		List<Patient> patList = patientService.getPatientByName(name);
+		String patData = "";
+		if(patList != null && patList.size() > 0){
+			for (Patient p : patList) {
+				patData += p.getFirstName() + " " + p.getLastName() + " / "
+						+ p.getGenderCode() + " / " + p.getdOB() + " / "
+						+ p.getHomePhone() + "\n";
+			}
+			return patData;
+		}else{
+			return "result not found";			
+		}		
+	}
 }

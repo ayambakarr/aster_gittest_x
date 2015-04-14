@@ -8,7 +8,11 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
+    
+    <welcome-file-list>
+    	<welcome-file>registration.html</welcome-file>
+    </welcome-file-list>
+    
     <servlet>
         <servlet-name>spring-hibernate</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -25,7 +29,7 @@
 	      <param-name>redirects-list</param-name>
 	      <param-value>
 	         /
-	         /index.html
+	         /registration.html
 	      </param-value>
 	   </init-param>
 	   <init-param>
@@ -43,7 +47,7 @@
 
     <servlet-mapping>
         <servlet-name>spring-hibernate</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>

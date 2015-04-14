@@ -51,4 +51,12 @@ public class PatientDaoImpl extends AbstractDao implements PatientDao{
 //		
 		return null;
 	}
+
+	@Override
+	@SuppressWarnings("unchecked") 
+	public List<Patient> getPatientByName(String name) {
+		Query query = getSessionFactory().getCurrentSession().createQuery("from Patient where (firstName+lastName) like ?")  ;        
+        query.setString(0,"%"+name+"%");
+        return query.list();	    
+	}
 }

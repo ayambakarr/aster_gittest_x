@@ -34,4 +34,9 @@ public class PatientServiceImpl implements PatientService {
 		patBo.deletePatient(pat);		
 	}
 
+	@Override
+	public List<Patient> getPatientByName(String name) {
+		return patBo.getPatientByName(name);
+	}
+
 }

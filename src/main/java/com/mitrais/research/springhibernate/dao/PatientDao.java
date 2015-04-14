@@ -15,6 +15,8 @@ public interface PatientDao {
 	    @Transactional
 	    List<Patient> getPatientList(Patient pat);
 	    @Transactional
+	    List<Patient> getPatientByName(String name);
+	    @Transactional
 	    List<Patient> getPatientList();
 	    @Transactional
 	    List<PatientAlcohol> getPatientAlcoholList(Patient pat);

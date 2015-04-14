@@ -63,4 +63,9 @@ public class PatientBoImpl implements PatientBo {
 		patientDao.deletePatient(pat);
 	}
 
+	@Override
+	public List<Patient> getPatientByName(String name) {
+		return patientDao.getPatientByName(name);
+	}
+
 }

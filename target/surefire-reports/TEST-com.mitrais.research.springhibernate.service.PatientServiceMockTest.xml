@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.02" errors="0" skipped="0" tests="4" name="com.mitrais.research.springhibernate.service.PatientServiceMockTest">
+<testsuite failures="0" time="0.013" errors="0" skipped="0" tests="4" name="com.mitrais.research.springhibernate.service.PatientServiceMockTest">
   <properties>
     <property name="jboss.i18n.generate-proxies" value="true"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -21,7 +21,7 @@
     <property name="basedir" value="D:\AsterX\Essentials\training00\aster_gittest_x"/>
     <property name="java.endorsed.dirs" value="C:\Program Files\Java\jdk1.7.0_51\jre\lib\endorsed"/>
     <property name="os.arch" value="amd64"/>
-    <property name="surefire.real.class.path" value="D:\AsterX\Essentials\training00\aster_gittest_x\target\surefire\surefirebooter564269771636550136.jar"/>
+    <property name="surefire.real.class.path" value="D:\AsterX\Essentials\training00\aster_gittest_x\target\surefire\surefirebooter3492576385373621751.jar"/>
     <property name="java.io.tmpdir" value="C:\Users\sean_h\AppData\Local\Temp\"/>
     <property name="line.separator" value="
 "/>
@@ -45,7 +45,7 @@
     <property name="java.vm.specification.version" value="1.7"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="C:\Program Files\Java\jdk1.7.0_51\jre"/>
-    <property name="sun.java.command" value="D:\AsterX\Essentials\training00\aster_gittest_x\target\surefire\surefirebooter564269771636550136.jar D:\AsterX\Essentials\training00\aster_gittest_x\target\surefire\surefire1050626541611932904tmp D:\AsterX\Essentials\training00\aster_gittest_x\target\surefire\surefire4611145264869167435tmp"/>
+    <property name="sun.java.command" value="D:\AsterX\Essentials\training00\aster_gittest_x\target\surefire\surefirebooter3492576385373621751.jar D:\AsterX\Essentials\training00\aster_gittest_x\target\surefire\surefire1433419275110448856tmp D:\AsterX\Essentials\training00\aster_gittest_x\target\surefire\surefire5645927561672542895tmp"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="user.language" value="en"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -62,8 +62,8 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase time="0" classname="com.mitrais.research.springhibernate.service.PatientServiceMockTest" name="savePatient"/>
-  <testcase time="0.001" classname="com.mitrais.research.springhibernate.service.PatientServiceMockTest" name="updatePatient"/>
-  <testcase time="0.001" classname="com.mitrais.research.springhibernate.service.PatientServiceMockTest" name="deletePatient"/>
-  <testcase time="0" classname="com.mitrais.research.springhibernate.service.PatientServiceMockTest" name="searchPatientByName"/>
+  <testcase time="0.001" classname="com.mitrais.research.springhibernate.service.PatientServiceMockTest" name="searchPatientByName"/>
+  <testcase time="0.001" classname="com.mitrais.research.springhibernate.service.PatientServiceMockTest" name="savePatient"/>
+  <testcase time="0" classname="com.mitrais.research.springhibernate.service.PatientServiceMockTest" name="updatePatient"/>
+  <testcase time="0" classname="com.mitrais.research.springhibernate.service.PatientServiceMockTest" name="deletePatient"/>
 </testsuite>
