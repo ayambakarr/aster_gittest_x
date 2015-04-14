@@ -8,6 +8,7 @@ public interface PatientBo {
 
 	List<Patient> getPatientByName(Patient pat);
 	List<Patient> getPatientByName(String name);
+	List<Patient> getAllPatient();
 	String savePatient(Patient pat);
 	void updatePatient(Patient pat);
 	void deletePatient(Patient pat);

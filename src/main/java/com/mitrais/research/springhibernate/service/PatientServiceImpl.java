@@ -39,4 +39,9 @@ public class PatientServiceImpl implements PatientService {
 		return patBo.getPatientByName(name);
 	}
 
+	@Override
+	public List<Patient> getAllPatient() {
+		return patBo.getAllPatient();
+	}
+
 }

@@ -1,0 +1,507 @@
+<script type="text/x-kendo-template" id="layout">
+    <div id="wrapper">
+        <div id="header" class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse1" id="button-toggle1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar-collapse1">
+                    <ul class="nav navbar-nav">
+                        <li style="background-color: #19232F;">
+                            <a class="menu" href="#" style="padding-top: 8px; padding-bottom: 8px;">
+                                <input id="LayoutPracticeSelector" name="PracticeSelectorDropDownList" class="RegistrationCombobox PracticeSelector">
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li style="background-color: #19232F;"><a class="menu" href="#"><div id="HeaderUsername"><img src="images/ajax-loader-kit.gif" />&nbsp;Loading..</div></a></li>
+                        <li style="background-color: #19232F;"><a class="menu-separator">|</a></li>
+                        <li style="background-color: #19232F;"><a class="menu" href="#" onclick="Logout()"><img src="images/logout_button.png"/>&nbspLogout</a></li>
+                        <li><a class="menu" href="#" onclick="Lock()"><img src="images/HeaderLock.png"/></a></li>
+                        <li><a class="menu-separator">|</a></li>
+                        <li><a class="menu" href="#"><img src="images/HeaderHelp.png"/>&nbsp Help</a></li>
+                        <li><a class="menu-separator">|</a></li>
+                        <li><a class="menu" href="#" onclick="ShowPreferencesWindow()"><img src="images/HeaderPreferences.png"/>&nbsp Preferences</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+        <div id="HeaderLocked" class="AlwaysVisible">
+            <div class="CenteredHeader">
+                <div id="HeaderLeft">
+                    <div id="HeaderPhone">
+                        <a href="tel:+61299883977" style="color: white;">Call: +61 2 9988 3977</a>
+                    </div>
+                </div>
+                <div id="HeaderRight">
+                    <div id="HeaderSupport">
+                        <a class="HeaderLink" href="http://community.medirecords.com"><img src="images/SupportWhite.png" style="vertical-align: middle;"/>&nbsp;Support</a>        
+                    </div>
+                </div>
+            </div>
+	    </div>
+        <div id="HeaderClinicalPractice" class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="margin-top:40px;">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse2" id="button-toggle2">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <img id="medirecords-logo" src="images/MediRecordsIconSmall.png" />
+                </div>
+                <div class="navbar-collapse collapse" id="navbar-collapse2">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="menu" href="#/Home">Home</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Appointments">Appointments</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Billing">Billing</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Patients">Patients</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Messages">Messages</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Labs">Labs</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Reporting">Reporting</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Resources">Resources</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Settings">Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="HeaderClinical" class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="margin-top:40px;">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse2" id="button-toggle2">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <img id="medirecords-logo" src="images/MediRecordsIconSmall.png" />
+                </div>
+                <div class="navbar-collapse collapse" id="navbar-collapse2">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="menu" href="#/Home">Home</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Patients">Patients</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Messages">Messages</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Labs">Labs</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Reporting">Reporting</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Resources">Resources</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Settings">Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="HeaderPractice" class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="margin-top:40px;">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse2" id="button-toggle2">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <img id="medirecords-logo" src="images/MediRecordsIconSmall.png" />
+                </div>
+                <div class="navbar-collapse collapse" id="navbar-collapse2">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="menu" href="#/Home">Home</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Appointments">Appointments</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Billing">Billing</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Patients">Patients</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Messages">Messages</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Reporting">Reporting</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Resources">Resources</a></li>
+                        <li class="menu-separator">&nbsp</li>
+                        <li><a class="menu" href="#/Settings">Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="BreadCrumbs" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse3" id="button-toggle3">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a id="PageDesc" class="navbar-brand" href="#">
+                        Loading..
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar-collapse3">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="menu" href="#"><div id="BreadCrumb"></div></a></li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+        <div id="IconsStrip" class="AlwaysVisible">
+            <div style="background-color: #dddbdc;">
+                <div class="container">
+                    <div class="row">
+                        <div id="Dashboard" class="IconStrip" style="width: 25%;" onclick="IconStripRedirectTo(this)">
+                            <br/>
+                            <br/>
+                            <img src="images/icn-dashboard.png" style="width: 60px; height: 60px;"/>
+                            <p class="SettingsLogoDesc">Dashboard</p>
+                        </div>
+                        <div id="Task" class="IconStrip" style="width: 25%;" onclick="IconStripRedirectTo(this)">
+                            <br/>
+                            <br/>
+                            <img src="images/icn-task.png" style="width: 60px; height: 60px;"/>
+                            <p class="SettingsLogoDesc">Tasks</p>
+                        </div>
+                        <div id="Audit" class="IconStrip" style="width: 25%;" onclick="IconStripRedirectTo(this)">
+                            <br/>
+                            <br/>
+                            <img src="images/icn-audit.png" style="width: 60px; height: 60px;"/>
+                            <p class="SettingsLogoDesc">Audit</p>
+                        </div>
+                        <div id="PatientAudit" class="IconStrip" style="width: 25%;" onclick="IconStripRedirectTo(this)">
+                            <br/>
+                            <br/>
+                            <img src="images/icn-audit.png" style="width: 60px; height: 60px;"/>
+                            <p class="SettingsLogoDesc">Patient Audit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div></div>
+        </div>
+
+        <div id="BodyForm">
+            <div id="body"></div>
+        </div>    
+    </div>
+    <div id="PreferenceWindow">
+    </div>
+</script>
+
+<script>
+    function jqUpdateSize() {
+        var width = $(window).width();
+        if (width < 1025) {
+            $(".menu-separator").hide();
+        }
+        else {
+            $(".menu-separator").show();
+        }
+    };
+
+    function ButtonsCollapseClickEvent() {
+        //Hide second navbar when first navbar clicked/collapse in
+        $("#button-toggle1").click(function () {
+            if ($("#navbar-collapse1").attr("class") == "navbar-collapse collapse") {
+                $("#navbar-collapse1").css("z-index", "1");
+                $(".navbar.navbar-inverse.navbar-fixed-top").css("z-index", "-1");
+
+            } else {
+                $("#navbar-collapse1").css("z-index", "-1");
+                $(".navbar.navbar-inverse.navbar-fixed-top").css("z-index", "1");
+            }
+        });
+
+        //Hide third navbar when second navbar clicked/collapse in
+        $("#button-toggle2").click(function () {
+            if ($("#navbar-collapse2").attr("class") == "navbar-collapse collapse") {
+                $("#navbar-collapse2").css("z-index", "1");
+                $("#IconsStrip").css("z-index", "-1");
+            } else {
+                $("#navbar-collapse2").css("z-index", "-1");
+                $("#IconsStrip").css("z-index", "1");
+            }
+        });
+
+        //Collapsing .navbar-collapse when clicking li inside #header
+        $("#header .container .navbar-collapse.collapse .nav.navbar-nav.navbar-right li").click(function () {
+            var width = $(window).width();
+            if (width < 1025) {
+                $("#button-toggle1").click();
+            }
+        });
+
+        //Collapsing .navbar-collapse when clicking li inside #HeaderClinicalPractice
+        $("#HeaderClinicalPractice .container .navbar-collapse.collapse .nav.navbar-nav.navbar-right li").click(function () {
+            var width = $(window).width();
+            if (width < 1025) {
+                $("#button-toggle2").click();
+            }
+        });
+
+        //Collapsing .navbar-collapse when clicking li inside #HeaderClinicalPractice
+        $("#HeaderClinical .container .navbar-collapse.collapse .nav.navbar-nav.navbar-right li").click(function () {
+            var width = $(window).width();
+            if (width < 1025) {
+                $("#button-toggle2").click();
+            }
+        });
+
+        //Collapsing .navbar-collapse when clicking li inside #HeaderClinicalPractice
+        $("#HeaderPractice .container .navbar-collapse.collapse .nav.navbar-nav.navbar-right li").click(function () {
+            var width = $(window).width();
+            if (width < 1025) {
+                $("#button-toggle2").click();
+            }
+        });
+    };
+    
+
+    function InitiateIconStripSplitter() {
+        $("#IconsStrip").kendoSplitter({
+            orientation: "vertical",
+            panes: [
+                { collapsible: true, resizable: false, size: "135px" },
+            ],
+            expand: onExpand,
+            collapse: onCollapse,
+        });
+    };
+
+    function onExpand() {
+        $('#IconsStrip').css({ "height": "130px" });
+        var width = $(window).width();
+        if (width < 1025) {
+            $('#BodyForm').css({ "margin": "225px 10px 0px" });
+        } else {
+            $('#BodyForm').css({ "margin": "330px 10px 0px" });
+        }
+    };
+
+    function onCollapse() {
+        $('#IconsStrip').css({ "height": "1px" });
+        $('.k-pane.k-scrollable').css({ "height": "0px" });
+        var width = $(window).width();
+        if (width < 1025) {
+            $('#BodyForm').css({ "margin": "90px 10px 0px" });
+        } else {
+            $('#BodyForm').css({ "margin": "190px 10px 0px" });
+        }
+    };
+
+    function SendLockStatus() {
+        $.ajax({
+            url: "api/main/lock/",
+            type: 'POST',
+            contentType: "application/json;charset=utf-8",
+            success: function () {
+            },
+            error: function (x, y, z) {
+            	messageModalDialogContent.text('There is an error happened! Technical error: ' + x.responseText);
+                messageModalDialog.title("Error");
+                messageModalDialog.center();
+                messageModalDialog.open();
+            }
+        });
+    };
+
+    function SendLogoutStatus() {
+        $.ajax({
+            url: "api/main/logout/",
+            type: 'POST',
+            contentType: "application/json;charset=utf-8",
+            success: function () {
+            },
+            error: function (x, y, z) {
+            	messageModalDialogContent.text('There is an error happened! Technical error: ' + x.responseText);
+                messageModalDialog.title("Error");
+                messageModalDialog.center();
+                messageModalDialog.open();
+            }
+        });
+    };
+
+    function Lock() {
+        SendLockStatus();
+        window.location.href = '#/Locked';
+    };
+    function Logout() {
+        SendLogoutStatus();
+        deleteAllCookies();
+        window.location.href = LOGINAPPURL;
+    };
+    function SetUserHeader()
+    {
+        if ($.cookie('subscriptionModuleGuid') == CLINICALGUID)
+        {
+            $("#HeaderClinical").show();
+            $("#HeaderPractice").hide();
+            $("#HeaderClinicalPractice").hide();
+        }
+        else if ($.cookie('subscriptionModuleGuid') == PRACTICEGUID) {
+            $("#HeaderClinical").hide();
+            $("#HeaderPractice").show();
+            $("#HeaderClinicalPractice").hide();
+        }
+        else if ($.cookie('subscriptionModuleGuid') == PRACTICECLINICALGUID) {
+            $("#HeaderClinical").hide();
+            $("#HeaderPractice").hide();
+            $("#HeaderClinicalPractice").show();
+        } 
+    }
+    function InitiatePreferencesWindow() {
+        var preferencesWindow = $("#PreferenceWindow");
+        preferencesWindow.kendoWindow({
+            title: "Preferences",
+            width: "1000px",
+            height: "auto",
+            draggable: true,
+            actions: ["Close"],
+            resizable: false,
+            visible: false,
+            modal: true
+        });
+        
+    };
+    function ShowPreferencesWindow() {
+        var preferencesWindow = $("#PreferenceWindow").data("kendoWindow");
+        preferencesWindow.refresh({
+            url: "../general/preferences.html"
+        });
+
+        preferencesWindow.title("Preferences");
+        preferencesWindow.center();
+        preferencesWindow.open();
+    };
+
+    function InitiateLayoutLookup() {
+//         $.cookie.json = false;
+//         //define datasource for combobox PracticeSelector
+//         var practiceSelectorDataSource = new kendo.data.DataSource({
+//             transport: {
+//                 read: {
+//                     url: "dummyData/GetPractice.dat,
+//                     dataType: "json"
+//                 }
+//             }
+//         });
+
+//         //assign combobox PracticeSelector with value
+//         $("#LayoutPracticeSelector").kendoDropDownList({
+//             dataSource: practiceSelectorDataSource,
+//             dataTextField: 'PracticeName',
+//             dataValueField: 'AccountGUID',
+//             filter: "contains",
+//             suggest: true,
+//             change: function (e) {
+//                 var dropdownlist = $("#LayoutPracticeSelector").data("kendoDropDownList");
+//                 var selectedText = dropdownlist.text();
+//                 var selectedValue = dropdownlist.value();
+//                 var r = confirm("Are you sure want to change your practice into '" + selectedText + "' ?");
+//                 if (r == true) {
+//                     $.cookie.json = false;
+//                     $.cookie('accountGuid', selectedValue);
+//                     $.cookie('practiceName', selectedText);
+//                 }
+//                 else {
+//                     $.cookie.json = false;
+//                     dropdownlist.select(function(dataItem) {
+//                         return dataItem.PracticeName === $.cookie('practiceName');
+//                     });
+//                 }
+//             },
+//             dataBound: function () {
+//                 GetUserData();
+//             }
+//         });
+    };
+
+    function IconStripRedirectTo(e) {
+        if (e.id == "Dashboard") {
+        	messageModalDialogContent.text("Dashboard menu is not active yet.");
+        	messageModalDialog.title("Error");
+        	messageModalDialog.center();
+        	messageModalDialog.open();
+        }
+        if (e.id == "Task") {
+        	messageModalDialogContent.text("Task menu is not active yet.");
+        	messageModalDialog.title("Error");
+        	messageModalDialog.center();
+        	messageModalDialog.open();
+        }
+        if (e.id == "Audit") {
+            window.location = "#/Home/Audit";
+        }
+        if (e.id == "PatientAudit") {
+            window.location = "#/Patients";
+        }
+    };
+
+    function SaveServerSessionState() {
+        $.cookie.json = false;
+     	// TESTING_BAGUS: commented
+        /*
+        $.ajax({
+            url: "Home/SaveSessionState",
+            type: 'GET',
+            contentType: "json",
+            success: function (data) {
+            }
+        });*/
+    };
+
+    function CheckServerSessionState() {
+    	// TESTING_BAGUS: commented
+        /*$.ajax({
+            url: "Home/CheckSessionState",
+            type: 'GET',
+            contentType: "json",
+            success: function (data) {
+                if (data == "false") {
+                    Lock();
+                    CheckUserLockStatus(data);
+                } 
+            }
+        });*/
+    };
+
+    $(document).ready(function () {
+        SaveServerSessionState();
+        GenerateBreadcrumb("#BreadCrumb");
+        NavModuleClickedStyle(".Menu");
+        $("#header").show();
+        $("#HeaderLocked").hide();
+        SetUserHeader();
+        InitiatePreferencesWindow();
+        InitiateLayoutLookup();
+        InitiateIconStripSplitter();
+        jqUpdateSize();
+        $(window).resize(jqUpdateSize);
+    });
+    
+    $(document).bind("switchedViewEvent", function (e, args) {
+        //CheckServerSessionState();
+        $(window).resize(jqUpdateSize);
+        ButtonsCollapseClickEvent();
+        $.cookie.json = false;
+        SwitchIconsStripOnOff("#IconsStrip");
+        GenerateBreadcrumb("#BreadCrumb");
+    });
+</script>

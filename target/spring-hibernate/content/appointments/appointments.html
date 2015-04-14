@@ -1,0 +1,332 @@
+<script type="text/x-kendo-template" id="appointments">
+    <div id="AppointmentsView">
+        <div class="FormBodyLeftMenu">
+            <div class="FormBodyLeftMenuContent">
+                <div data-role="calendar"
+                    data-bind="visible: isVisibleCalendar,
+                        value: selectedDateCalendar,
+                        events: { change: onChangeCalendar }"
+                    style="width: 100%;">
+                </div>
+                <div class="mr-fields">
+                    <span class="mr-header-small-Label">Filter by Provider</span>
+                </div>
+                <div class="mr-fields">
+                    <span
+                    title="Metadata was not bound"
+                    data-role="tooltip"
+                    data-auto-hide="true"
+                    data-position="left"
+                    data-show-after="3000">
+                        <input 
+                        class="RegistrationCombobox"
+                        name="AppointmentsAllProviders" 
+                        data-role="dropdownlist"
+                        data-text-field="text" 
+                        data-value-field="value"
+                        data-option-label="All Providers"
+                        data-bind="source: FilterProviderDataSource"/>
+                        <div class="k-invalid-msg" data-for="AppointmentsAllProviders"></div>
+                    </span>
+                </div>
+                <div class="mr-fields">
+                    <span class="mr-header-small-Label">Room</span>
+                </div>
+                <div class="mr-fields">
+                    <span
+                    title="Metadata was not bound"
+                    data-role="tooltip"
+                    data-auto-hide="true"
+                    data-position="left"
+                    data-show-after="3000">
+                        <input 
+                        class="RegistrationCombobox"
+                        name="AppointmentsPractices" 
+                        data-role="dropdownlist"
+                        data-text-field="practiceName" 
+                        data-value-field="accountGUID"
+                        data-option-label="Practices"
+                        data-bind="source: AppointmentsPracticesDataSource, value: AppointmentsPracticesValue"/>
+                        <div class="k-invalid-msg" data-for="AppointmentsPractices"></div>
+                    </span>
+                </div>
+                <div class="mr-fields">
+                    <span class="mr-header-small-Label">Status</span>
+                </div>
+                <div class="mr-fields">
+                    <span
+                    title="Metadata was not bound"
+                    data-role="tooltip"
+                    data-auto-hide="true"
+                    data-position="left"
+                    data-show-after="3000">
+                        <input 
+                        class="RegistrationCombobox"
+                        name="AppointmentsReports" 
+                        data-role="dropdownlist"
+                        data-text-field="LookUpText" 
+                        data-value-field="LookUpValue"
+                        data-option-label="Reports"
+                        data-bind="source: AppointmentsReportsDataSource, value: AppointmentsReportsValue"/>
+                        <div class="k-invalid-msg" data-for="AppointmentsReports"></div>
+                    </span>
+                </div>
+                <div class="mr-fields">
+                    <span class="mr-header-small-Label">Actions</span>
+                </div>
+                <div class="mr-fields">
+                    <span
+                    title="Metadata was not bound"
+                    data-role="tooltip"
+                    data-auto-hide="true"
+                    data-position="left"
+                    data-show-after="3000">
+                        <input 
+                        class="RegistrationCombobox"
+                        name="AppointmentsActions" 
+                        data-role="dropdownlist"
+                        data-text-field="LookUpText" 
+                        data-value-field="LookUpValue"
+                        data-option-label="Actions"
+                        data-bind="source: AppointmentsActionsDataSource, value: AppointmentsActionsValue"/>
+                        <div class="k-invalid-msg" data-for="AppointmentsActions"></div>
+                    </span>
+                </div>
+                
+                <div style="width: 150px;" class="TransparentButton">
+                    <img style="vertical-align: middle; width: 30px; height: 30px;" src="images/NewAppointment.png">&nbsp;&nbsp;New Appointment
+                </div>
+                <div style="width: 150px;" class="TransparentButton">
+                    <img style="vertical-align: middle; width: 30px; height: 30px;" src="images/EditAppointment.png">&nbsp;&nbsp;Edit Appointment
+                </div>
+                <div style="width: 150px;" class="TransparentButton">
+                    <img style="vertical-align: middle; width: 30px; height: 30px;" src="images/DeleteAppointment.png">&nbsp;&nbsp;Delete Appointment
+                </div>
+                <div style="width: 150px;" class="TransparentButton">
+                    <img style="vertical-align: middle; width: 30px; height: 30px;" src="images/MoveAppointment.png">&nbsp;&nbsp;Move Appointment
+                </div>
+                <div style="width: 150px;" class="TransparentButton">
+                    <img style="vertical-align: middle; width: 30px; height: 30px;" src="images/ViewNotes.png">&nbsp;&nbsp;Unavailable
+                </div>
+                <div style="width: 150px;" class="TransparentButton">
+                    <img style="vertical-align: middle; width: 30px; height: 30px;" src="images/ViewPatient.png">&nbsp;&nbsp;View Patient
+                </div>
+
+                <div class="mr-fields">
+                    <span class="mr-header-small-Label">Reports</span>
+                </div>
+                <div class="mr-fields">
+                    <span
+                    title="Metadata was not bound"
+                    data-role="tooltip"
+                    data-auto-hide="true"
+                    data-position="left"
+                    data-show-after="3000">
+                        <input 
+                        class="RegistrationCombobox"
+                        name="AppointmentsReports" 
+                        data-role="dropdownlist"
+                        data-text-field="LookUpText" 
+                        data-value-field="LookUpValue"
+                        data-option-label="Reports"
+                        data-bind="source: AppointmentsReportsDataSource, value: AppointmentsReportsValue"/>
+                        <div class="k-invalid-msg" data-for="AppointmentsReports"></div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="FormBodyMain">
+            <div class="FormBodyToolbar" style="margin-bottom:0px;">
+                <div class="FormBodyToolbarContent" style="line-height:35px">
+                    <div class="mr-content-left">
+                        &nbsp;
+                    </div>
+                    <div class="mr-content-right">
+                        <span class="k-icon k-i-search k-texbox"></span>
+                        <span class="k-textbox k-space-right">
+                            <input id="patientsSearchTextBox" class="k-input" type="textbox" placeholder="Search for Patient ..." />
+                            <a href="#" class="k-icon k-si-close" data-bind="click: clearSearch" />
+                        </span>
+                        <button data-role="button" data-bind="click: searchPatient">Go</button>
+                        <button data-role="button" data-bind="click: showAdvancedFind">Advanced Find</button>
+                        <div data-role="window" id="patientsAdvancedFindWindow" data-draggable="false" data-title="false" data-width="50%" data-resizable="false">
+                            <div style="float: left">
+                                <div><label style="width:100px">First Name:</label><input data-role="textbox"/></div>
+                                <div><label style="width:100px">Last Name:</label><input data-role="textbox"/></div>
+                                <div><label style="width:100px">Gender:</label><input type="radio" style="display: inline" value="1" />Male <input type="radio" style="display: inline" value="2"/>Female</div>
+                                <div><label style="width:100px">Date of Birth:</label><input data-role="datepicker" class="k-input"/></div>
+                                <div><label style="width:100px">Email:</label><input data-role="textbox"/></div>
+                            </div>
+                            <div style="float: left; padding-left: 15px">
+                                <div><label style="width:100px">Record ID:<label><input data-role="textbox" /></div>
+                                <div><label style="width:100px">Last Visit From<label><input data-role="datepicker" /></div>
+                                <div><label style="width:100px">Last Visit To<label><input data-role="datepicker" /></div>
+                                <button data-role="button" data-bind="click: advancedFind">Find</button>
+                            </div>
+                        </div>
+                      </li>
+                    </div>
+                </div>
+            </div>
+            <div class="FormBodyMainContent">
+                <div id="scheduler"></div>
+            </div>
+        </div>
+        
+    </div>
+</script>
+
+<style scoped>
+    #UserAuditSearch {
+        line-height: normal;
+    }
+    .FormBodyToolbar {
+        width: 100%;
+    }
+    .k-widget.k-window {
+        width: 600px;
+    }
+</style>
+
+<script>
+    $(document).bind("viewSwtichedEvent", function (e, args) {
+        if (args.name == "appointments") { // check if this view was switched too
+            SetPageDescription("Appointments");
+            if (args.isRemotelyLoaded) { // check if this view was remotely loaded from server
+                loadScripts(['js/Model/AppointmentsModel.js',
+                    'js/DataSources/AppointmentsDataSource.js',
+                    'js/ViewModel/AppointmentViewModel.js',
+                    'js/DataSources/ServiceProviderTypeDataSource.js',
+                    'js/DataSources/PracticesDataSource.js',
+                    'js/DataSources/FilterProviderDataSource.js',
+                    'js/DataSources/ActionsDummyDataSource.js',
+                    'js/DataSources/ReportsDummyDataSource.js'], function () {
+                        var appointmentsModelObj = new AppointmentsModel();
+                        var appointmentsModel = appointmentsModelObj.initiateModel();
+
+                        var appointmentsDataSourceObj = new AppointmentsDataSource();
+                        var appointmentsDataSource = appointmentsDataSourceObj.initiateDataSource(appointmentsModel);
+
+                        $.cookie.json = false;
+                        var serviceProviderTypeDataSourceObj = new ServiceProviderTypeDataSource();
+                        var serviceProviderTypeDataSource = serviceProviderTypeDataSourceObj.initiateDataSource($.cookie('accountGuid'));
+
+                        $.cookie.json = false;
+                        var practicesDataSourceObj = new PracticesDataSource();
+                        var practicesDataSource = practicesDataSourceObj.initiateDataSource($.cookie('accountGuid'));
+
+                        var filterProviderDataSourceObj = new FilterProviderDataSource();
+                        var filterProviderDataSource = filterProviderDataSourceObj.initiateDataSource();
+
+                        var actionsDummyDataSourceObj = new ActionsDummyDataSource();
+                        var actionsDummyDataSource = actionsDummyDataSourceObj.initiateDataSource();
+
+                        var reportsDummyDataSourceObj = new ReportsDummyDataSource();
+                        var reportsDummyDataSource = reportsDummyDataSourceObj.initiateDataSource();
+
+                        var dataSources = {
+                            appointmentsDataSource: appointmentsDataSource,
+                            serviceProviderTypeDataSource: serviceProviderTypeDataSource,
+                            practicesDataSource: practicesDataSource,
+                            filterProviderDataSource: filterProviderDataSource,
+                            actionsDummyDataSource: actionsDummyDataSource,
+                            reportsDummyDataSource: reportsDummyDataSource
+                        };
+                    
+                        var appointmentsViewModelObj = new AppointmentsViewModel();
+                        var appointmentsViewModel = appointmentsViewModelObj.initiateViewModel(dataSources);
+                        kendo.bind($("#AppointmentsView"), appointmentsViewModel);
+
+                        $("#scheduler").kendoScheduler({
+                            date: new Date("2013/6/13"),
+                            startTime: new Date("2013/6/13 07:00 AM"),
+                            height: 600,
+                            views: [
+                                "day",
+                                { type: "week", selected: true },
+                                "month",
+                                "agenda"
+                            ],
+                            timezone: "Etc/UTC",
+                            dataSource: {
+                                batch: true,
+                                transport: {
+                                    read: {
+                                        url: "http://demos.telerik.com/kendo-ui/service/meetings",
+                                        dataType: "jsonp"
+                                    },
+                                    update: {
+                                        url: "http://demos.telerik.com/kendo-ui/service/meetings/update",
+                                        dataType: "jsonp"
+                                    },
+                                    create: {
+                                        url: "http://demos.telerik.com/kendo-ui/service/meetings/create",
+                                        dataType: "jsonp"
+                                    },
+                                    destroy: {
+                                        url: "http://demos.telerik.com/kendo-ui/service/meetings/destroy",
+                                        dataType: "jsonp"
+                                    },
+                                    parameterMap: function(options, operation) {
+                                        if (operation !== "read" && options.models) {
+                                            return {models: kendo.stringify(options.models)};
+                                        }
+                                    }
+                                },
+                                schema: {
+                                    model: {
+                                        id: "meetingID",
+                                        fields: {
+                                            meetingID: { from: "MeetingID", type: "number" },
+                                            title: { from: "Title", defaultValue: "No title", validation: { required: true } },
+                                            start: { type: "date", from: "Start" },
+                                            end: { type: "date", from: "End" },
+                                            startTimezone: { from: "StartTimezone" },
+                                            endTimezone: { from: "EndTimezone" },
+                                            description: { from: "Description" },
+                                            recurrenceId: { from: "RecurrenceID" },
+                                            recurrenceRule: { from: "RecurrenceRule" },
+                                            recurrenceException: { from: "RecurrenceException" },
+                                            roomId: { from: "RoomID", nullable: true },
+                                            attendees: { from: "Attendees", nullable: true },
+                                            isAllDay: { type: "boolean", from: "IsAllDay" }
+                                        }
+                                    }
+                                }
+                            },
+                            group: {
+                                resources: ["Rooms", "Attendees"],
+                                orientation: "vertical"
+                            },
+                            resources: [
+                                {
+                                    field: "roomId",
+                                    name: "Rooms",
+                                    dataSource: [
+                                        { text: "Meeting Room 101", value: 1, color: "#6eb3fa" },
+                                        { text: "Meeting Room 201", value: 2, color: "#f58a8a" }
+                                    ],
+                                    title: "Room"
+                                },
+                                {
+                                    field: "attendees",
+                                    name: "Attendees",
+                                    dataSource: [
+                                        { text: "Alex", value: 1, color: "#f8a398" },
+                                        { text: "Bob", value: 2, color: "#51a0ed" },
+                                        { text: "Charlie", value: 3, color: "#56ca85" }
+                                    ],
+                                    multiple: true,
+                                    title: "Attendees"
+                                }
+                            ]
+                        });
+                });
+            } else {// view already been loaded in cache
+                alert("page has been loaded");
+            }
+        }
+    });
+</script>
+
+

@@ -5,46 +5,309 @@
 <link rel="stylesheet" href="css/kendo/css/kendo.common.min.css" />
 <link rel="stylesheet" href="css/kendo/css/kendo.default.min.css" />
 <link rel="stylesheet" href="css/kendo/css/kendo.dataviz.min.css" />
-<link rel="stylesheet" href="css/kendo/css/kendo.dataviz.default.min.css" />
+<link rel="stylesheet" href="css/kendo/css/kendo.dataviz.default.min.css" />    
 
+<script src="js/jquery-1.8.2.min.js"></script>
 <script src="js/jquery.min.js"></script>
 <script src="js/kendo/js/kendo.all.min.js"></script>
+<script src="js/patient-datasource.js"></script>
 
 
 </head>
 <body>
 
-	<div id="example">
-		<!-- Define the HTML div that will hold the Grid -->
-<div id="grid"></div>
+<div>
+    Search By Name:
+    <input class=k-textbox type=text id="txtSearchString" placeholder="enter search text..." />
+    <button id="btnSearch">Search</button>
+</div>
+  <br><br>
+<div>
+	<button id="btnAdd">Add</button>
+	<button id="btnUpdate">Update</button>
+	<button id="btnDelete">Delete</button>
+</div> 
+  <br><br>
+   
+<div id="scr-pat-clinical-03-condition-window" style="display: none; background-color: #ffffff" class="mr-popup-window"></div>
 
+<div id="grid" 
+        data-role="grid"
+        data-sortable="true"
+        data-selectable="multiple"
+        data-pageable=" { refresh: true, pageSizes: 10 } "
+        data-columns='[        		 
+                {field: "patientGUID", title: "Patient ID"}, 
+                {field: "name", template: "#= firstName # #= lastName #", title: "Name"},
+                {field: "dOB", title: "Date of Birth"},
+                {field: "genderCode", title: "Gender Code"},
+                {field: "homePhone", title: "Home Phone"}                
+            ]'
+        data-bind="source: dataSource, events: { dataBound: dataBound }"></div>
+        
 <!-- Initialize the Grid -->
 <script>
 
-    $(document).ready(function(){
-        $("#grid").kendoGrid({
-        	dataSource: {
-                type: "json",
-                transport: {
-                    read: "/asterx/rest/patients/ping/"
-                },
-                page : 1,
-                pageSize: 20
-            },
-            columns: [{
-                field: "patientGUID",
-                title: "Patient ID"
-            },
-            {
-                field: "firstName",
-                title: "First Name"
-            }]            
-        });
+	var viewModel = kendo.observable({
+	    dataSource: dataSource,
+	    dataBound: function(e) {
+	        e.sender.expandRow(e.sender.tbody.find("tr.k-master-row").first());
+	    },
+		popupViewModel: kendo.observable({
+			status: "nanana",
+			usualDoctor: null,
+			Title: null,
+			closePopUp: function(e){
+			},
+			savePopUp: function(e){
+			},			
+		    appointmentTypes : new kendo.data.DataSource({
+		        data: [{
+		        	lookupText: 1,
+		        	lookupValue: "Wellness Exam"
+		        }, {
+		        	lookupText: 2,
+		        	lookupValue: "Diagnostic Exam"
+		        }, {
+		        	lookupText: 3,
+		        	lookupValue: "Nail Trim"
+		        }]
+		    }),
+		    statusData: new kendo.data.DataSource({
+				data: [{			
+					lookupText : 'Standard',
+					lookupValue : 1
+				},
+				{
+					lookupText : 'VIP',
+					lookupValue : 2
+				},
+				{
+					lookupText : 'Blacklisted',
+					lookupValue : 3
+				},
+				{
+					lookupText : 'Family',
+					lookupValue : 4
+				}]
+			}),
+			statusUsualDoctor: new kendo.data.DataSource({
+				data: [{			
+					lookupText : 'Marcus George',
+					lookupValue : '58C7420A-7A3F-47B8-9BAC-69E17B8FDFDF'
+				},
+				{
+					lookupText : 'Maya Rose',
+					lookupValue : '5BCF2C84-2F9F-42DF-A0C3-85C95AFFAAD6'
+				},
+				{
+					lookupText : 'Olivia Charlotte',
+					lookupValue : 'E253CBF5-0B05-44AC-B483-DD7F50F4617B'
+				},
+				{
+					lookupText : 'Lara Kayla',
+					lookupValue : '85366CC0-6A58-4147-93BB-F978CB72ECAC'
+				}]
+			}),
+			statusTitle: new kendo.data.DataSource({
+				data: [{			
+					lookupText : 'Mr',
+					lookupValue : 1
+				},
+				{
+					lookupText : 'Mrs',
+					lookupValue : 2
+				},
+				{
+					lookupText : 'Ms',
+					lookupValue : 3
+				},
+				{
+					lookupText : 'Miss',
+					lookupValue : 4
+				},
+				{
+					lookupText : 'Sir',
+					lookupValue : 5
+				},
+				{
+					lookupText : 'Lady',
+					lookupValue : 6
+				}]
+			}),
+		    statusGender: new kendo.data.DataSource({
+				data: [{			
+					lookupText : 'Female',
+					lookupValue : 1
+				},
+				{
+					lookupText : 'Male',
+					lookupValue : 2
+				},
+				{
+					lookupText : 'Other',
+					lookupValue : 3
+				},
+				{
+					lookupText : 'Unknown',
+					lookupValue : 4
+				}]
+			}),
+			statusRelationship: new kendo.data.DataSource({
+				data: [{			
+					lookupText : 'Father',
+					lookupValue : 1
+				},
+				{
+					lookupText : 'Mother',
+					lookupValue : 2
+				},
+				{
+					lookupText : 'Husband',
+					lookupValue : 3
+				},
+				{
+					lookupText : 'Wife',
+					lookupValue : 4
+				},
+				{
+					lookupText : 'Son',
+					lookupValue : 5
+				},
+				{
+					lookupText : 'Daughter',
+					lookupValue : 6
+				}]
+			})
+		})
+	});	
+	var dataSources = {
+			moreListDataSource: new kendo.data.DataSource({
+				data: [{			
+				lookupText : 'Include in Summaries',
+				lookupValue : 1
+			},
+			{
+				lookupText : 'Exclude from Summaries',
+				lookupValue : 2
+			},
+			{
+				lookupText : 'Include in PCEHR',
+				lookupValue : 3
+			},
+			{
+				lookupText : 'Exclude from PCEHR',
+				lookupValue : 4
+			}]
+		})
+	}
+	
+	var conditionWindow = $("#scr-pat-clinical-03-condition-window");
+	
+	var conditionPopupWindow = conditionWindow.kendoWindow({
+        title: false,
+        resizable: false,
+        draggable: false,
+        visible: false,
+        modal: true,
+        maxWidth: "790px",
+        minHeight: "475px",
+        width: "100%",
+        actions: []
+    }).data("kendoWindow");
+
+    loadWindowTemplate({
+        windowId: "scr-pat-clinical-03-condition-window",
+        templateId: "scr-pat-clinical-03-condition-template",
+        viewModel: viewModel.popupViewModel
     });
 
+	
+	$("#btnSearch").bind("click", function(e) {
+	    // set call parameters, if needed
+		var q = $("#txtSearchString").val();
+	    dataSource.query({
+	        page:1,
+	        pageSize:20,
+	        filter:{
+	          logic:"or",
+	          filters:[
+	            {field:"firstName", operator:"contains",value:q},
+	            {field:"lastName", operator:"contains",value:q}
+	            ]
+	         }
+	      });
+	});
+	
+	$("#btnDelete").bind("click", function(e) {		 
+        var grid = $("#grid").data("kendoGrid");
+        grid.select().each(function() {
+            grid.removeRow($(this));          
+        });
+	});
+	
+	$("#btnUpdate").bind("click", function(e) {
+		
+	});
+	
+	$("#btnAdd").bind("click", function(e) {
+		conditionWindow.data("kendoWindow").open().center();
+	});
+	
+	kendo.bind($(document.body), viewModel);
 </script>
+
+<script type="text/x-kendo-template" id="scr-pat-clinical-03-condition-template">
+	<div class="mr-popup-dialog-button-close" style="position: absolute; margin-top: -5px; min-width: 22px; height: 22px; width: 22px; right: 5px; z-index: 99;"  data-bind="click: closeConditionForm">
+		<img alt="close" src="images/close.png" style="cursor: pointer; height: 22px; width: 22px" />
+	</div>	
+	
+	<div class="xx">
+							<input id="statusDropdown"
+								   name="Category" class="mr-dropdown-40"
+								   data-role="dropdownlist"
+								   data-option-label="status"
+								   data-text-field="lookupText"
+								   data-value-field="lookupValue"
+								   data-bind="source:statusData" />
+	</div>
+	<div class="xx">
+							<input id="usualDoctorDropdown"
+								   name="Category" class="mr-dropdown-40"
+								   data-role="dropdownlist"
+								   data-option-label="usual doctor"
+								   data-text-field="lookupText"
+								   data-value-field="lookupValue"
+								   data-bind="source:statusUsualDoctor" />
+	</div>
+	<div class="xx">
+							<input id="titleDropdown"
+								   name="Category" class="mr-dropdown-40"
+								   data-role="dropdownlist"
+								   data-option-label="Title"
+								   data-text-field="lookupText"
+								   data-value-field="lookupValue"
+								   data-bind="source:statusTitle" />
+	</div>
+	<div class="xx">
+							<input id="genderDropdown"
+								   name="Category" class="mr-dropdown-40"
+								   data-role="dropdownlist"
+								   data-option-label="Gender"
+								   data-text-field="lookupText"
+								   data-value-field="lookupValue"
+								   data-bind="source:statusGender" />
+	</div>
+	<div class="xx">
+							<input id="relationshipDropdown"
+								   name="Category" class="mr-dropdown-40"
+								   data-role="dropdownlist"
+								   data-option-label="Relationship"
+								   data-text-field="lookupText"
+								   data-value-field="lookupValue"
+								   data-bind="source:statusRelationship" />
 	</div>
 
-
+</script>
 </body>
 </html>

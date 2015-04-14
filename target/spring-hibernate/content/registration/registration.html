@@ -1,0 +1,195 @@
+ <script type="text/x-kendo-template" id="registration">
+<div id="registrationView" style="background-color: #FFFFFF">
+    <div class="LogoBig">
+        <img src="images/MediRecordsIcon.png" />
+    </div>
+    <div class="registrationMessage">
+        <p class="HeadMessage">
+            Try MediRecords For Free
+        </p>
+        <p>(One Month Free)</p>
+    </div>
+    <div id="stylized" class="formFrame">
+        <div style="margin: auto;">
+            <div id="RegistrationForm">
+                <table id="form" class="RegistrationTable" style="width:80%; margin: auto;">
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="PracticeName" type="text" class='RegistrationInput' placeholder="Practice Name*" name="Practice Name" required />
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <select id="Title" data-role="combobox" placeholder="Title*" class='RegistrationCombobox' required>
+                                <option value="315890000">Mr.</option>
+                                <option value="315890001">Mrs.</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="FirstName" type="text" class='RegistrationInput' placeholder="First Name*" name="First Name" required/>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="LastName" type="text" class='RegistrationInput' placeholder="Last Name*" name="Last Name" required/>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="UserID" type="text" class='RegistrationInput' placeholder="User ID*" name="User ID" required/>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="Email" type="email" 
+								class="RegistrationInput"
+								placeholder="Email Address*" name="Email"
+								data-email-msg="Email format is not valid"
+								data-email="email"
+							required/>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="Phone" type="text" class='RegistrationInput' placeholder="Phone*" name="Phone" required/>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="PromoCode" type="text" class='RegistrationInput' placeholder="Promo Code"/>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="CurrentSystem" data-role="combobox"
+								data-placeholder="Current Clinical System" 
+								data-text-field="LOOKUPTEXT"
+                   				data-value-field="LOOKUPVALUE"
+                   				data-bind="source: clinicalDataSource,
+                              				visible: trueVisible,
+                              				enabled: trueEnable"
+								class='RegistrationCombobox'/>
+                        </td>
+                    </tr>
+					<tr class="RegistrationRow">
+                        <td>
+							<input id="MRUserCategory" data-role="combobox"
+								data-placeholder="User Category" 
+								data-text-field="LOOKUPTEXT"
+                   				data-value-field="LOOKUPVALUE"
+                   				data-bind="source: userCategoryDataSource,
+                              				visible: trueVisible,
+                              				enabled: trueEnable"
+								class='RegistrationCombobox' required/>
+							<div class="k-invalid-msg" data-for="User Category"></div>  
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width:10%;">
+                                        <input id="TermAgreement" type="checkbox" value="true" name="Term" required validationMessage="Acceptance is required"/>
+                                    </td>
+                                    <td style="width:90%;">
+                                        I have read the terms and conditions.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="submitReg" value="Get Started" type="submit" data-bind="click: saveRegistration" class="MediRecordsButton" style="width: 100%;"/>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width:10%;">
+                                        <input id="sendStatus" type="checkbox" value="true"/>
+                                    </td>
+                                    <td style="width:90%; font-size: 11px;">
+                                        Send me updates on news clinical modules<br />(We won't spam you!, and you can unsubscribe anytime.)
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>    
+        </div>
+    </div>
+</div>
+</script>
+
+<style scoped>
+    .LogoBig {
+    	position: static;
+    }
+    div.registrationMessage {
+    	position: static;
+    }
+    .formFrame {
+    	margin: 0 auto;
+    	width: 50%;
+    }
+    input[type=checkbox] {
+    	display: inline;
+    }
+</style>
+
+<script>
+    $(document).bind("viewSwtichedEvent", function (e, args) {
+    	if (args.isRemotelyLoaded) { // check if this view was remotely loaded from server
+    		loadScripts(['js/ViewModel/RegistrationViewModel.js'], function () {
+    			
+    			//Validating the form
+    	        var validator = $("#RegistrationForm").kendoValidator().data("kendoValidator");
+    			var validatorEmail = $("#Email").kendoValidator({
+    				rules: {
+    					isEmailExist: function(input) {
+    						var emailField = input.data("email");
+    						var isEmailExist = false;
+    						
+    						if(typeof emailField !== 'undefined' && emailField == 'email') {
+    							$.ajax({
+                		            url: '/mrapp/rest/registration/isEmailExist/'+ input.val(),
+                		            type: 'GET',
+                		            dataType: 'json',
+                		            async: false,
+                		            success: function (data) {
+                		            	isEmailExist = data.isEmailExist;
+                		            },
+                		            error: function (x, y, z) {
+                		            	alert("error");
+                		            }
+                		        });
+    						}
+    						
+    						if(isEmailExist == true) {
+    		            		return false;
+    		            	}
+    						
+    						// don't perform any match validation on the input
+    						return true;
+    						
+    					}
+    				},
+    				messages: {
+    					isEmailExist: function(input) {
+    					      return "Email already exist"
+    				    }
+    				}
+    			});
+    			
+    			var registrationViewModelObj = new RegistrationViewModel();
+                var registrationViewModel = registrationViewModelObj.initiateViewModel(validator);
+                kendo.bind($("#registrationView"), registrationViewModel);
+    		});
+    	}
+    });
+</script>

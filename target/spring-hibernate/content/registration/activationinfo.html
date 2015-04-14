@@ -1,0 +1,47 @@
+<script type="text/x-kendo-template" id="activationinfo">
+    <div class="LogoBig">
+        <img src="images/MediRecordsIcon.png" />
+    </div>
+    <div class="registrationMessage">
+        <p class="HeadMessage">
+            Account Activation Information
+        </p>
+    </div>
+    <div class="triangle">
+        <img src="images/triangleBorderGray.png" />
+    </div>
+    <div id="stylized" class="formFrameActivation">
+        <div style="margin: auto;">
+            <table style="width:95%; text-align: left; margin: auto;">
+                <tr style="border-bottom:2px solid #dddcdc;">
+                    <td>
+                        <p>
+                        You have successfully registered for MediRecords. 
+                        </p>
+                        <p>
+                            An email has been sent to <a id="emailAddress"></a> with details on how to activate your account. You should receive it in a few moments. 
+                        </p>
+                        <b>The MediRecords Team</b>
+                        <br />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Need some helps? See our support centre,
+                        <br />
+                        Email <a href="mailto:support@medirecords.net">support@medirecords.net</a> or 
+                        <br />
+                        call us on 1300 555555
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</script>
+<script>
+    $(document).bind("viewSwtichedEvent", function (e, args) {
+        $("#emailAddress").text($.cookie("email"));
+//         $("#firstName").text($.cookie("firstName"));
+//         $("#activationLink").text("https://www.medirecords.net/" + $.cookie('userdataguid'));
+    });
+</script>

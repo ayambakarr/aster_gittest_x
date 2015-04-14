@@ -40,7 +40,7 @@ public class PatientWs {
 	@GET
 	@Path("/ping")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Patient testPing() {
+	public List<Patient> testPing() {
 		String nanana = "nanana";
 		// Date now = Calendar.getInstance().getTime();
 		// List<PatientAlcohol> patientAlcoholList = new
@@ -53,7 +53,8 @@ public class PatientWs {
 		Patient pat = new Patient();
 		pat.setFirstName("rerere");
 		pat.setLastName("dasda");
-		List<Patient> patList = patientService.getPatientByName(pat);
+		List<Patient> patList = patientService.getAllPatient();
+		//List<Patient> patList = patientService.getPatientByName(pat);
 		pat = patList.get(0);
 		// pat.setPatientAlcoholList(patientAlcoholList);
 		patientService.updatePatient(pat);
@@ -75,7 +76,7 @@ public class PatientWs {
 			e.printStackTrace();
 			//return "error3";
 		}
-		return pat;
+		return patList;
 	}
 
 	@GET
@@ -146,19 +147,19 @@ public class PatientWs {
 
 	@GET
 	@Path("/ping/{name}")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String getPatientByName(@PathParam("name") String name) {
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Patient> getPatientByName(@PathParam("name") String name) {
 		List<Patient> patList = patientService.getPatientByName(name);
 		String patData = "";
 		if(patList != null && patList.size() > 0){
-			for (Patient p : patList) {
-				patData += p.getFirstName() + " " + p.getLastName() + " / "
-						+ p.getGenderCode() + " / " + p.getdOB() + " / "
-						+ p.getHomePhone() + "\n";
-			}
-			return patData;
+//			for (Patient p : patList) {
+//				patData += p.getFirstName() + " " + p.getLastName() + " / "
+//						+ p.getGenderCode() + " / " + p.getdOB() + " / "
+//						+ p.getHomePhone() + "\n";
+//			}
+			return patList;
 		}else{
-			return "result not found";			
+			return null;			
 		}		
 	}
 }

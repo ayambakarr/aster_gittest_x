@@ -1,0 +1,304 @@
+<!--<div style="border: 1px solid "></div>-->
+<script type="text/x-kendo-template" id="registration3">
+    <div class="LogoBig">
+        <img src="images/MediRecordsIcon.png" />
+    </div>
+    <div class="registrationMessage">
+        <p class="HeadMessage">
+            Enter your billing details
+        </p>
+    </div>
+    <div class="triangle">
+        <img src="images/triangleBorderGray.png" />
+    </div>
+    <div id="stylized" class="formFrame">
+        <div style="margin: auto;">
+            <div id="RegistrationForm">
+                <table id="form" class="RegistrationTable" style="width:80%; margin: auto;">
+                    <tr class="RegistrationRow">
+                        <td>
+                            <div id="DivSameAsPractice" class="checkbox" style="float: left;" tabindex="1">
+                                <input id="SameAsPracticeDetails" name="SameAsPracticeDetails" type="checkbox"/>
+                                <label for="SameAsPracticeDetails">Same as Practice Details</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="BillingName" placeholder="Billing Name" class='RegInputWithValidation' name="Billing Name" required tabindex="2"/>  
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="BillingAddress1" placeholder="Address 1" class='RegInputWithValidation' name="Billing Address 1" required tabindex="3"/> 
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="BillingAddress2" placeholder="Address 2" class='RegInputWithValidation' tabindex="4"/>  
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="BillingPostCode" placeholder="Post Code" class='RegInputWithValidation' name="Billing Post Code" required tabindex="5"/>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="BillingCitySuburb" placeholder="City/Suburb" class='RegistrationInput' name="Billing CitySuburb" required tabindex="6"/>
+                            <div class="k-invalid-msg" data-for="Billing CitySuburb"></div>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="BillingState" placeholder="State" class='RegistrationInput' name="Billing State" required tabindex="7"/>
+                            <div class="k-invalid-msg" data-for="Billing State"></div>
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <input id="ABN" placeholder="ABN" class='RegInputWithValidation' name="ABN" tabindex="8"/>  
+                        </td>
+                    </tr>
+                    <tr class="RegistrationRow">
+                        <td>
+                            <div id="DivRegisteredForGST" class="checkbox" style="float: left;" tabindex="9">
+                                <input id="RegisteredForGST" name="RegisteredForGST" type="checkbox"/> 
+                                <label for="RegisteredForGST">Registered for GST</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="text-align: left;">
+                                        <input id="Reg3Back" value="Back" type="submit" class="MediRecordsButton" style="width: 70px;" onclick="BacktoReg2()" tabindex="11"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <input id="Reg3Next" value="Next" type="submit" class="MediRecordsButton" style="width: 70px;" tabindex="10"/>        
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>    
+        </div>
+    </div>
+</script>
+<script>
+
+    var registeredForGSTVal = false;
+    var BillingStateText;
+    var BillingSuburbText;
+
+    $(document).bind("viewSwtichedEvent", function (e, args) {
+        //set field limit
+//         function ApplyFieldLimitonReg3() {
+//             $.cookie.json = true;
+//             if (document.getElementById('BillingName') != null) {
+//                 document.getElementById('BillingName').maxLength = $.cookie('listOfFieldLimit').BillingName;
+//             };
+//             if (document.getElementById('BillingAddress1') != null) {
+//                 document.getElementById('BillingAddress1').maxLength = $.cookie('listOfFieldLimit').Address;
+//             };
+//             if (document.getElementById('BillingAddress2') != null) {
+//                 document.getElementById('BillingAddress2').maxLength = $.cookie('listOfFieldLimit').Address;
+//             };
+//             if (document.getElementById('BillingPostCode') != null) {
+//                 document.getElementById('BillingPostCode').maxLength = $.cookie('listOfFieldLimit').PostCode;
+//             };
+//             if (document.getElementById('ABN') != null) {
+//                 document.getElementById('ABN').maxLength = $.cookie('listOfFieldLimit').ABN;
+//             };
+//         };
+//         ApplyFieldLimitonReg3();
+
+        $('#BillingCitySuburb').prop('disabled', true);
+        $('#BillingState').prop('disabled', true);
+
+        if (document.getElementById('DivSameAsPractice') != null) {
+            document.getElementById('DivSameAsPractice').focus();
+            $("#DivSameAsPractice").css("border", "1px solid dotted");
+        };
+
+        //Set Checkbox Value on "Space" or "Enter" Key Press
+        $("#DivSameAsPractice").keydown(function (e) {
+            SetCheckboxValue(e, "#SameAsPracticeDetails");
+            if ($("#SameAsPracticeDetails").is(':checked')) {// the checkbox was checked
+                LoadPracticeData();
+            } else {// the checkbox was unchecked
+                ResetPracticeData();
+            }
+        });
+        $("#DivRegisteredForGST").keydown(function (e) {
+            SetCheckboxValue(e, "#RegisteredForGST");
+            SetABNStatus($("#RegisteredForGST"));
+        });
+
+        $("#BillingPostCode").change(function () {
+            if ($("#BillingPostCode").val() != "") {
+                $("#BillingCitySuburb").attr("class", "RegistrationCombobox");
+                $('#BillingCitySuburb').prop('disabled', false);
+
+                SetBillingSuburbByPostCode($("#BillingPostCode").val());
+
+                var billingSuburbDropDown = $("#BillingCitySuburb").data("kendoDropDownList");
+                billingSuburbDropDown.focus();
+            };
+        });
+
+        function SetBillingSuburbByPostCode(postCode) {
+            var billingSuburbDataSource = [
+                                           {Locality: "SYDNEY", PostCodeGUID: "685EC68C-FA00-474C-91B2-42AB59EEAE95"}
+                                          ];
+            
+            $("#BillingCitySuburb").kendoDropDownList({
+                dataSource: billingSuburbDataSource,
+                dataTextField: "Locality",
+                dataValueField: "PostCodeGUID",
+                filter: "contains",
+                suggest: true,
+                optionLabel: "Billing Suburb*"
+            });
+            
+            $("#BillingState").attr("class", "RegistrationCombobox");
+            $('#BillingState').prop('disabled', false);
+            SetBillingStateByPostCode($("#BillingPostCode").val());
+        };
+
+        function SetBillingStateByPostCode(postCode) {
+            var billingStateDataSource = [
+                     						{StateName: "NSW", StateID: "685EC68C-FA00-474C-91B2-42AB59EEAE95"},
+                       						{StateName: "NSW2", StateID: "18B0A81E-35FC-4DE0-A5C0-5B19556439E5"},
+                       						{StateName: "NSW3", StateID: "138D7F3B-FCE2-494F-982C-A46F056CB066"},
+                       						{StateName: "NSW4", StateID: "3C9B8C9E-7081-4BAD-97BA-E64C670430FE"},
+                       						{StateName: "NSW5", StateID: "A2533EB7-AD4E-4D48-860C-6B8DA3C96732"}
+                    					];
+            
+            $("#BillingState").kendoDropDownList({
+                dataSource: billingStateDataSource,
+                dataTextField: "StateName",
+                dataValueField: "StateID",
+                filter: "contains",
+                suggest: true,
+                optionLabel: "State*"
+            });
+        };
+
+        function LoadPracticeData() {
+            //Load Data of Practice
+            $.cookie.json = true;
+            $("#BillingName").val($.cookie('registration2').PracticeName);
+            $("#BillingAddress1").val($.cookie('registration2').Address1);
+            $("#BillingAddress2").val($.cookie('registration2').Address2);
+            $("#BillingPostCode").val($.cookie('registration2').PostCode);
+
+            $("#BillingCitySuburb").attr("class", "RegistrationCombobox");
+            $('#BillingCitySuburb').prop('disabled', false);
+
+            SetBillingSuburbByPostCode($("#BillingPostCode").val());
+        };
+        function ResetPracticeData() {
+            //Reset Data of Practice
+            $("#BillingName").val("");
+            $("#BillingAddress1").val("");
+            $("#BillingAddress2").val("");
+            $("#BillingPostCode").val("");
+            var billingSuburbDropDown = $("#BillingCitySuburb").data("kendoDropDownList");
+            billingSuburbDropDown.select(0);
+            billingSuburbDropDown.enable(false);
+            var billingStateDropDown = $("#BillingState").data("kendoDropDownList");
+            billingStateDropDown.select(0);
+            billingStateDropDown.enable(false);
+        };
+
+        $('#SameAsPracticeDetails').click(function () {
+            var $this = $(this);
+            if ($this.is(':checked')) {// the checkbox was checked
+                LoadPracticeData();
+            } else {// the checkbox was unchecked
+                ResetPracticeData();
+            }
+        });
+
+        //event handler on ABNNumber field for validate the ABN
+        $("#ABN").change(function () {
+            var abn = $("#ABN").val();
+            $.ajax({
+                url: "api/registration/validateabn/" + abn,
+                type: 'GET',
+                contentType: "json",
+                success: function (data) {
+                    if (data == false) {
+                        $("#Message").text("You have entered an invalid ABN number. Please try again");
+                        $("#MessageModalDialog").dialog("open");
+                        $("#ABN").val("");
+                        $("#ABN").focus();
+                    }
+                    else {
+
+                    }
+                }
+            });
+        });
+
+        function SetABNStatus($this) {
+            if ($this.is(':checked')) {
+                // the checkbox was checked
+                $("#ABN").attr("name", "ABN");
+                $("#ABN").attr("required", "true");
+                registeredForGSTVal = true;
+            } else {
+                // the checkbox was unchecked
+                $("#ABN").attr("name", "ABN");
+                $("#ABN").removeAttr("required");
+                registeredForGSTVal = false;
+            }
+        };
+
+        //Event handler of RegisteredForGST checkbox
+        $('#RegisteredForGST').click(function () {
+            SetABNStatus($(this));
+        });
+
+        //Validating the form
+        var validator = $("#RegistrationForm").kendoValidator({
+                            validateOnBlur: false
+                        }).data("kendoValidator");
+        $("#Reg3Next").on("click", function () {
+            var validatorType1 = validateCommonField($("#RegistrationForm"), "[class=RegInputWithValidation]");
+            if (validator.validate() & validatorType1.validate()) {   
+            //if (validator.validate()) {
+                // If the form is valid, the Validator will return true
+                saveRegistration3();
+            }
+        });
+    });
+
+    function saveRegistration3() {
+        var comboboxState = $("#BillingState").data("kendoDropDownList");
+        BillingStateText = comboboxState.text();
+        var comboboxSuburb = $("#BillingCitySuburb").data("kendoDropDownList");
+        BillingSuburbText = comboboxSuburb.text();
+
+        var registration3 = {
+            BillingName: $('#BillingName').val(),
+            BillingAddress1: $('#BillingAddress1').val(),
+            BillingAddress2: $('#BillingAddress2').val(),
+            BillingCity: BillingSuburbText,
+            BillingPostCode: $('#BillingPostCode').val(),
+            BillingState: BillingStateText,
+            ABN: $('#ABN').val(),
+            RegisterForGST: registeredForGSTVal,
+        };
+
+        $.cookie.json = true;
+        $.cookie('registration3', registration3);
+        window.location.href = "registration.html#/subscriptionplan";
+    };
+    function BacktoReg2() {
+        window.location.href = 'registration.html#/registration2/' + $.cookie('registration2').AccountId;
+    };
+</script>
